@@ -7,6 +7,7 @@ import logging
 import os
 import string
 import sys
+import re
 from collections import namedtuple
 from operator import attrgetter
 
@@ -1367,6 +1368,7 @@ def resolve_volume_path(working_dir, volume):
         if host_path.startswith('.'):
             host_path = expand_path(working_dir, host_path)
         host_path = os.path.expanduser(host_path)
+        host_path = re.sub(r'^/mnt/', '/host_mnt/', host_path)
         return u"{}:{}{}".format(host_path, container_path, (':' + mode if mode else ''))
 
     return container_path
